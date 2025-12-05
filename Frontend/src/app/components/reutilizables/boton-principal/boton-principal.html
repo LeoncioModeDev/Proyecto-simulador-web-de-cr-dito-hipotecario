@@ -1,0 +1,13 @@
+<button
+  type="button"
+  class="boton-principal"
+  [disabled]="disabled"
+  [ngStyle]="{
+    padding: padding,
+    'background-color': fondo,
+    color: colorTexto
+  }"
+>
+  <ng-content select="mat-icon"></ng-content>
+  <span>{{ texto }}</span>
+</button>

@@ -1,0 +1,257 @@
+<div class="page-container">
+  <!-- HEADER -->
+  <header class="page-header">
+    <div class="page-title-block">
+      @if (clienteId === 0) {
+        <h1 class="page-title">Registrar Cliente</h1>
+      }
+      @if (clienteId > 0) {
+        <h1 class="page-title">Editar Cliente</h1>
+      }
+      <p class="page-subtitle">
+        @if (clienteId === 0) {
+          <span>Completa el formulario para registrar un nuevo cliente.</span>
+        }
+        @if (clienteId > 0) {
+          <span>Actualiza los datos del cliente con ID {{ clienteId }}.</span>
+        }
+      </p>
+    </div>
+  </header>
+
+  <form [formGroup]="formulario" class="formulario-simulacion">
+
+    <!-- CARD 1: Datos personales -->
+    <section class="page-card">
+      <h3 class="card-title">1. Datos personales</h3>
+
+      <div class="grid-form">
+        <!-- DNI -->
+        <div class="campo-grupo">
+          <label for="dni" class="campo-label required">DNI</label>
+          <input
+            id="dni"
+            type="text"
+            formControlName="dni"
+            maxlength="8"
+            class="campo-input"
+            [class.campo-invalido]="formulario.get('dni')?.invalid && formulario.get('dni')?.touched"
+            placeholder="12345678"
+            />
+            @if (formulario.get('dni')?.hasError('required') && formulario.get('dni')?.touched) {
+              <span class="campo-error">
+                El DNI es obligatorio
+              </span>
+            }
+            @if ((formulario.get('dni')?.hasError('minlength') || formulario.get('dni')?.hasError('maxlength')) && formulario.get('dni')?.touched) {
+              <span class="campo-error">
+                El DNI debe tener exactamente 8 dígitos
+              </span>
+            }
+          </div>
+
+          <!-- Nombres -->
+          <div class="campo-grupo">
+            <label for="nombres" class="campo-label required">Nombres</label>
+            <input
+              id="nombres"
+              type="text"
+              formControlName="nombres"
+              class="campo-input"
+              [class.campo-invalido]="formulario.get('nombres')?.invalid && formulario.get('nombres')?.touched"
+              placeholder="Juan Carlos"
+              />
+              @if (formulario.get('nombres')?.hasError('required') && formulario.get('nombres')?.touched) {
+                <span class="campo-error">
+                  Los nombres son obligatorios
+                </span>
+              }
+            </div>
+
+            <!-- Apellidos -->
+            <div class="campo-grupo">
+              <label for="apellidos" class="campo-label required">Apellidos</label>
+              <input
+                id="apellidos"
+                type="text"
+                formControlName="apellidos"
+                class="campo-input"
+                [class.campo-invalido]="formulario.get('apellidos')?.invalid && formulario.get('apellidos')?.touched"
+                placeholder="Pérez García"
+                />
+                @if (formulario.get('apellidos')?.hasError('required') && formulario.get('apellidos')?.touched) {
+                  <span class="campo-error">
+                    Los apellidos son obligatorios
+                  </span>
+                }
+              </div>
+
+              <!-- Correo -->
+              <div class="campo-grupo">
+                <label for="correo" class="campo-label required">Correo</label>
+                <input
+                  id="correo"
+                  type="email"
+                  formControlName="correo"
+                  class="campo-input"
+                  [class.campo-invalido]="formulario.get('correo')?.invalid && formulario.get('correo')?.touched"
+                  placeholder="correo@ejemplo.com"
+                  />
+                  @if (formulario.get('correo')?.hasError('required') && formulario.get('correo')?.touched) {
+                    <span class="campo-error">
+                      El correo es obligatorio
+                    </span>
+                  }
+                </div>
+
+                <!-- Teléfono -->
+                <div class="campo-grupo">
+                  <label for="telefono" class="campo-label required">Teléfono</label>
+                  <input
+                    id="telefono"
+                    type="text"
+                    formControlName="telefono"
+                    maxlength="9"
+                    class="campo-input"
+                    [class.campo-invalido]="formulario.get('telefono')?.invalid && formulario.get('telefono')?.touched"
+                    placeholder="987654321"
+                    />
+                    @if (formulario.get('telefono')?.hasError('required') && formulario.get('telefono')?.touched) {
+                      <span class="campo-error">
+                        El teléfono es obligatorio
+                      </span>
+                    }
+                  </div>
+
+                  <!-- Dirección -->
+                  <div class="campo-grupo">
+                    <label for="direccion" class="campo-label required">Dirección</label>
+                    <input
+                      id="direccion"
+                      type="text"
+                      formControlName="direccion"
+                      class="campo-input"
+                      [class.campo-invalido]="formulario.get('direccion')?.invalid && formulario.get('direccion')?.touched"
+                      placeholder="Av. Principal 123"
+                      />
+                      @if (formulario.get('direccion')?.hasError('required') && formulario.get('direccion')?.touched) {
+                        <span class="campo-error">
+                          La dirección es obligatoria
+                        </span>
+                      }
+                    </div>
+                  </div>
+                </section>
+
+                <!-- CARD 2: Información financiera -->
+                <section class="page-card margin-top-24">
+                  <h3 class="card-title">2. Información financiera</h3>
+
+                  <div class="grid-form">
+                    <!-- Ingreso mensual -->
+                    <div class="campo-grupo">
+                      <label for="ingreso_mensual" class="campo-label required">Ingreso mensual (S/)</label>
+                      <input
+                        id="ingreso_mensual"
+                        type="number"
+                        formControlName="ingreso_mensual"
+                        class="campo-input"
+                        [class.campo-invalido]="formulario.get('ingreso_mensual')?.invalid && formulario.get('ingreso_mensual')?.touched"
+                        placeholder="0.00"
+                        />
+                        @if (formulario.get('ingreso_mensual')?.hasError('required') && formulario.get('ingreso_mensual')?.touched) {
+                          <span class="campo-error">
+                            El ingreso mensual es obligatorio
+                          </span>
+                        }
+                      </div>
+
+                      <!-- Estado civil -->
+                      <div class="campo-grupo">
+                        <label for="estado_civil" class="campo-label required">Estado civil</label>
+                        <select
+                          id="estado_civil"
+                          formControlName="estado_civil"
+                          class="campo-input campo-select"
+                          [class.campo-invalido]="formulario.get('estado_civil')?.invalid && formulario.get('estado_civil')?.touched"
+                          >
+                          <option value="">Seleccionar...</option>
+                          @for (estado of estadosCiviles; track estado) {
+                            <option [value]="estado">
+                              {{ estado }}
+                            </option>
+                          }
+                        </select>
+                        @if (formulario.get('estado_civil')?.hasError('required') && formulario.get('estado_civil')?.touched) {
+                          <span class="campo-error">
+                            El estado civil es obligatorio
+                          </span>
+                        }
+                      </div>
+
+                      <!-- Dependientes -->
+                      <div class="campo-grupo">
+                        <label for="dependientes" class="campo-label required">N° de dependientes</label>
+                        <input
+                          id="dependientes"
+                          type="number"
+                          formControlName="dependientes"
+                          class="campo-input"
+                          [class.campo-invalido]="formulario.get('dependientes')?.invalid && formulario.get('dependientes')?.touched"
+                          placeholder="0"
+                          />
+                          @if (formulario.get('dependientes')?.hasError('required') && formulario.get('dependientes')?.touched) {
+                            <span class="campo-error">
+                              Este campo es obligatorio
+                            </span>
+                          }
+                        </div>
+
+                        <!-- Residencia actual -->
+                        <div class="campo-grupo">
+                          <label for="residencia_actual" class="campo-label required">Residencia actual</label>
+                          <select
+                            id="residencia_actual"
+                            formControlName="residencia_actual"
+                            class="campo-input campo-select"
+                            [class.campo-invalido]="formulario.get('residencia_actual')?.invalid && formulario.get('residencia_actual')?.touched"
+                            >
+                            <option value="">Seleccionar...</option>
+                            @for (residencia of residencias; track residencia) {
+                              <option [value]="residencia">
+                                {{ residencia }}
+                              </option>
+                            }
+                          </select>
+                          @if (formulario.get('residencia_actual')?.hasError('required') && formulario.get('residencia_actual')?.touched) {
+                            <span class="campo-error">
+                              La residencia es obligatoria
+                            </span>
+                          }
+                        </div>
+                      </div>
+                    </section>
+
+                    <!-- BOTÓN GUARDAR -->
+                    <div class="contenedor-boton-plan margin-top-24">
+                      <app-boton-principal
+                        [texto]="clienteId === 0 ? 'Registrar cliente' : 'Actualizar cliente'"
+                        padding="14px 40px"
+                        [disabled]="formulario.invalid"
+                        (click)="grabarCliente()">
+                      </app-boton-principal>
+                    </div>
+
+                    <!-- Botón volver -->
+                    <app-boton-principal
+                      class="posicion-inferior-derecha"
+                      texto="Volver"
+                      [fondo]="'var(--color-gris)'"
+                      [colorTexto]="'var(--color-blanco)'"
+                      padding="10px 36px"
+                      routerLink="/home/clientes">
+                    </app-boton-principal>
+
+                  </form>
+
+                </div>

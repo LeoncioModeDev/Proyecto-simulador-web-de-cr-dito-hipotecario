@@ -1,0 +1,169 @@
+<div class="page-container">
+  <!-- MENSAJE DE CARGA -->
+  @if (cargando) {
+    <div class="mensaje-carga">
+      <div class="spinner"></div>
+      <p>Cargando plan de pagos...</p>
+    </div>
+  }
+
+  <!-- CONTENIDO PRINCIPAL -->
+  @if (!cargando && simulacionRespuesta; as resp) {
+    <!-- HEADER -->
+    <header class="page-header">
+      <div class="page-title-block">
+        <h1 class="page-title">Plan de Pagos</h1>
+        <p class="page-subtitle">
+          Resultados detallados de la simulación de crédito hipotecario.
+        </p>
+      </div>
+    </header>
+    <!-- RESUMEN DE INDICADORES -->
+    <section class="page-card">
+      <h3 class="titulo-modulos">Indicadores Financieros</h3>
+      <div class="grid-resumen">
+        <div class="tarjeta-resumen">
+          <h4>Saldo a financiar</h4>
+          <p>S/ {{ resp.simulacion.monto_credito | number:'1.2-2' }}</p>
+        </div>
+        <div class="tarjeta-resumen">
+          <h4>Cuota inicial (%)</h4>
+          <p>{{ resp.simulacion.cuota_inicial_pct | number:'1.2-2' }} %</p>
+        </div>
+        <div class="tarjeta-resumen">
+          <h4>Plazo (meses)</h4>
+          <p>{{ resp.simulacion.plazo_meses }}</p>
+        </div>
+        <div class="tarjeta-resumen">
+          <h4>TEM</h4>
+          <p>{{ resp.simulacion.tasa_efectiva_mensual | number:'1.4-4' }}</p>
+        </div>
+        <div class="tarjeta-resumen">
+          <h4>VAN</h4>
+          <p>S/ {{ resp.indicadores.van | number:'1.2-2' }}</p>
+        </div>
+        <div class="tarjeta-resumen">
+          <h4>TIR anual</h4>
+          <p>{{ resp.indicadores.tir_anual | percent:'1.2-2' }}</p>
+        </div>
+        <div class="tarjeta-resumen">
+          <h4>TCEA anual</h4>
+          <p>{{ resp.indicadores.tcea_anual | percent:'1.2-2' }}</p>
+        </div>
+        <div class="tarjeta-resumen">
+          <h4>Total pagado</h4>
+          <p>S/ {{ resp.indicadores.total_pagado | number:'1.2-2' }}</p>
+        </div>
+        <div class="tarjeta-resumen">
+          <h4>Total intereses</h4>
+          <p>S/ {{ resp.indicadores.total_intereses | number:'1.2-2' }}</p>
+        </div>
+        <div class="tarjeta-resumen">
+          <h4>Total costos</h4>
+          <p>S/ {{ resp.indicadores.total_costos | number:'1.2-2' }}</p>
+        </div>
+        <div class="tarjeta-resumen">
+          <h4>Seguro desgravamen</h4>
+          <p>S/ {{ resp.indicadores.total_seguro_desgravamen | number:'1.2-2' }}</p>
+        </div>
+        <div class="tarjeta-resumen">
+          <h4>Seguro riesgo</h4>
+          <p>S/ {{ resp.indicadores.total_seguro_riesgo | number:'1.2-2' }}</p>
+        </div>
+      </div>
+    </section>
+    <!-- TABLA DE PLAN DE PAGOS -->
+    <section class="page-card margin-top-40">
+      <h3 class="titulo-modulos">Plan de pagos (método francés)</h3>
+      <div class="wrapper-tabla">
+        <table mat-table [dataSource]="resp.planPago" class="tabla-plan-pagos">
+          <ng-container matColumnDef="periodo">
+            <th mat-header-cell *matHeaderCellDef>Periodo</th>
+            <td mat-cell *matCellDef="let p">{{ p.periodo }}</td>
+          </ng-container>
+          <ng-container matColumnDef="estado">
+            <th mat-header-cell *matHeaderCellDef>Estado</th>
+            <td mat-cell *matCellDef="let p">{{ p.estado }}</td>
+          </ng-container>
+          <ng-container matColumnDef="saldo_inicial">
+            <th mat-header-cell *matHeaderCellDef>Saldo inicial</th>
+            <td mat-cell *matCellDef="let p">S/ {{ p.saldo_inicial | number:'1.2-2' }}</td>
+          </ng-container>
+          <ng-container matColumnDef="interes_periodo">
+            <th mat-header-cell *matHeaderCellDef>Interés</th>
+            <td mat-cell *matCellDef="let p">S/ {{ p.interes_periodo | number:'1.2-2' }}</td>
+          </ng-container>
+          <ng-container matColumnDef="amortizacion_periodo">
+            <th mat-header-cell *matHeaderCellDef>Amortización</th>
+            <td mat-cell *matCellDef="let p">S/ {{ p.amortizacion_periodo | number:'1.2-2' }}</td>
+          </ng-container>
+          <ng-container matColumnDef="seguro_desgravamen">
+            <th mat-header-cell *matHeaderCellDef>Seguro desgravamen</th>
+            <td mat-cell *matCellDef="let p">S/ {{ p.seguro_desgravamen | number:'1.2-2' }}</td>
+          </ng-container>
+          <ng-container matColumnDef="seguro_riesgo">
+            <th mat-header-cell *matHeaderCellDef>Seguro riesgo</th>
+            <td mat-cell *matCellDef="let p">S/ {{ p.seguro_riesgo | number:'1.2-2' }}</td>
+          </ng-container>
+          <ng-container matColumnDef="comision_periodica">
+            <th mat-header-cell *matHeaderCellDef>Comisión periódica</th>
+            <td mat-cell *matCellDef="let p">S/ {{ p.comision_periodica | number:'1.2-2' }}</td>
+          </ng-container>
+          <ng-container matColumnDef="portes_periodo">
+            <th mat-header-cell *matHeaderCellDef>Portes</th>
+            <td mat-cell *matCellDef="let p">S/ {{ p.portes_periodo | number:'1.2-2' }}</td>
+          </ng-container>
+          <ng-container matColumnDef="gastos_adm_periodo">
+            <th mat-header-cell *matHeaderCellDef>Gastos adm.</th>
+            <td mat-cell *matCellDef="let p">S/ {{ p.gastos_adm_periodo | number:'1.2-2' }}</td>
+          </ng-container>
+          <ng-container matColumnDef="costos_periodo">
+            <th mat-header-cell *matHeaderCellDef>Costos totales</th>
+            <td mat-cell *matCellDef="let p">S/ {{ p.costos_periodo | number:'1.2-2' }}</td>
+          </ng-container>
+          <ng-container matColumnDef="prepago">
+            <th mat-header-cell *matHeaderCellDef>Prepago</th>
+            <td mat-cell *matCellDef="let p">S/ {{ p.prepago | number:'1.2-2' }}</td>
+          </ng-container>
+          <ng-container matColumnDef="cuota_periodo">
+            <th mat-header-cell *matHeaderCellDef>Cuota total</th>
+            <td mat-cell *matCellDef="let p">S/ {{ p.cuota_periodo | number:'1.2-2' }}</td>
+          </ng-container>
+          <ng-container matColumnDef="saldo_final">
+            <th mat-header-cell *matHeaderCellDef>Saldo final</th>
+            <td mat-cell *matCellDef="let p">S/ {{ p.saldo_final | number:'1.2-2' }}</td>
+          </ng-container>
+          <tr mat-header-row *matHeaderRowDef="[
+            'periodo', 'estado', 'saldo_inicial', 'interes_periodo',
+            'amortizacion_periodo', 'seguro_desgravamen', 'seguro_riesgo',
+            'comision_periodica', 'portes_periodo', 'gastos_adm_periodo',
+            'costos_periodo', 'cuota_periodo', 'saldo_final'
+          ]"></tr>
+          <tr mat-row *matRowDef="let row; columns: [
+            'periodo', 'estado', 'saldo_inicial', 'interes_periodo',
+            'amortizacion_periodo', 'seguro_desgravamen', 'seguro_riesgo',
+            'comision_periodica', 'portes_periodo', 'gastos_adm_periodo',
+            'costos_periodo', 'cuota_periodo', 'saldo_final'
+          ];"></tr>
+        </table>
+      </div>
+    </section>
+    <!-- BOTONES DE ACCIÓN -->
+    <div class="contenedor-boton-plan margin-top-24">
+      <app-boton-principal
+        texto="Exportar CSV"
+        [fondo]="'var(--color-verde)'"
+        [colorTexto]="'var(--color-blanco)'"
+        padding="10px 36px"
+        (click)="exportarCSV()">
+      </app-boton-principal>
+      <app-boton-principal
+        texto="Volver"
+        [fondo]="'var(--color-gris)'"
+        [colorTexto]="'var(--color-blanco)'"
+        padding="10px 36px"
+        (click)="volver()">
+      </app-boton-principal>
+    </div>
+  }
+</div>

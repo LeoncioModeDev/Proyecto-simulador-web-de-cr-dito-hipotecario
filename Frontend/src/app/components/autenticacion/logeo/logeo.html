@@ -1,0 +1,65 @@
+<div class="contenedor-registro">
+  <!-- Lado izquierdo -->
+  <div class="lado-izquierdo">
+    <div class="contenido">
+      <h1>Iniciar Sesión</h1>
+      <h4>Accede a tu perfil financiero</h4>
+
+      <form [formGroup]="formulario">
+        <div>
+          <label for="username">Usuario:</label>
+          <input
+            id="username"
+            class="campos"
+            formControlName="username"
+            type="text"
+            placeholder="Ingresa tu usuario"
+            />
+            @if (formulario.get('username')?.invalid && formulario.get('username')?.touched) {
+              <span class="error">
+                Usuario es requerido
+              </span>
+            }
+          </div>
+
+          <div>
+            <label for="password">Contraseña:</label>
+            <input
+              id="password"
+              class="campos"
+              formControlName="password"
+              type="password"
+              placeholder="Ingresa tu contraseña"
+              />
+              @if (formulario.get('password')?.invalid && formulario.get('password')?.touched) {
+                <span class="error">
+                  Contraseña es requerida
+                </span>
+              }
+            </div>
+
+            @if (mensajeError) {
+              <div class="error-general">
+                {{ mensajeError }}
+              </div>
+            }
+
+            <app-boton-principal
+              (click)="login()"
+              texto="Iniciar Sesión"
+              [disabled]="formulario.invalid || cargando">
+            </app-boton-principal>
+
+            <p class="texto-secundario">
+              ¿No tienes una cuenta?
+              <a routerLink="/registro" class="enlace">Registrarse</a>
+            </p>
+          </form>
+        </div>
+      </div>
+
+      <!-- Lado derecho -->
+      <div class="lado-derecho">
+        <!--<img src="imagen_mivivienda_login.png" alt="Inicio de sesión MiVivienda">-->
+      </div>
+    </div>

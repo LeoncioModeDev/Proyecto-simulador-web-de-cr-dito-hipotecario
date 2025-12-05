@@ -1,0 +1,107 @@
+<div class="page-container">
+  <!-- HEADER -->
+  <header class="dashboard-header">
+    <div class="page-title-block">
+      <h1 class="page-title">Dashboard</h1>
+      <p class="page-subtitle">Bienvenido, {{ usuario?.username }}. Aquí está tu resumen financiero.</p>
+    </div>
+  </header>
+
+  <!-- SECCIÓN: ÚLTIMAS SIMULACIONES -->
+  <section class="dashboard-section">
+    <div class="section-header">
+      <h2 class="section-title">Últimas Simulaciones</h2>
+      <a routerLink="/home/simulacion" class="btn-ver-todo">Ver todas</a>
+    </div>
+
+    @if (cargando) {
+      <div class="loading">
+        <p>Cargando simulaciones...</p>
+      </div>
+    }
+
+    @if (mensajeError) {
+      <div class="error-message">
+        {{ mensajeError }}
+      </div>
+    }
+
+    @if (!cargando && simulaciones.length > 0) {
+      <div class="simulaciones-container">
+        @for (simulacion of simulaciones; track simulacion.simulacion_id) {
+          <div class="simulacion-card">
+            <div class="simulacion-header">
+              <h3 class="simulacion-titulo">Simulación #{{ simulacion.simulacion_id | number: '000' }}</h3>
+              <span class="simulacion-fecha">{{ formatearFecha(simulacion.fecha_simulacion) }}</span>
+            </div>
+            <div class="simulacion-details">
+              <div class="detail-item">
+                <span class="label">Monto:</span>
+                <span class="value">{{ formatearMoneda(simulacion.monto_credito) }}</span>
+              </div>
+              <div class="detail-item">
+                <span class="label">Plazo:</span>
+                <span class="value">{{ simulacion.plazo_meses / 12 | number: '1.0-0' }} años</span>
+              </div>
+              <div class="detail-item">
+                <span class="label">Tasa Anual:</span>
+                <span class="value">{{ simulacion.tasa_anual | number: '1.2-2' }}%</span>
+              </div>
+              <div class="detail-item">
+                <span class="label">TEM:</span>
+                <span class="value">{{ formatearPorcentaje(simulacion.tasa_efectiva_mensual) }}</span>
+              </div>
+            </div>
+            <button 
+              class="btn-simulacion"
+              (click)="verPlanPagos(simulacion.simulacion_id)"
+              [disabled]="cargando">
+              Ver Plan de Pagos
+            </button>
+          </div>
+        }
+      </div>
+    }
+
+    @if (!cargando && simulaciones.length === 0 && !mensajeError) {
+      <div class="empty-state">
+        <mat-icon>assessment</mat-icon>
+        <p>No hay simulaciones registradas aún</p>
+        <a routerLink="/home/simulacion" class="btn-crear">Crear nueva simulación</a>
+      </div>
+    }
+  </section>
+
+  <!-- SECCIÓN: ACCIONES RÁPIDAS -->
+  <section class="dashboard-section">
+    <div class="section-header">
+      <h2 class="section-title">Acciones Rápidas</h2>
+    </div>
+
+    <div class="acciones-container">
+      <a class="accion-card" routerLink="/home/clientes">
+        <mat-icon>group_add</mat-icon>
+        <h3>Agregar Cliente</h3>
+        <p>Registra un nuevo cliente</p>
+      </a>
+
+      <a class="accion-card" routerLink="/home/inmuebles">
+        <mat-icon>home_work</mat-icon>
+        <h3>Agregar Inmueble</h3>
+        <p>Registra una nueva propiedad</p>
+      </a>
+
+      <a class="accion-card" routerLink="/home/simulacion">
+        <mat-icon>calculate</mat-icon>
+        <h3>Nueva Simulación</h3>
+        <p>Realiza una simulación de crédito</p>
+      </a>
+
+      <a class="accion-card" routerLink="/home/configuracion">
+        <mat-icon>settings</mat-icon>
+        <h3>Mi Configuración</h3>
+        <p>Actualiza tu perfil</p>
+      </a>
+    </div>
+  </section>
+</div>

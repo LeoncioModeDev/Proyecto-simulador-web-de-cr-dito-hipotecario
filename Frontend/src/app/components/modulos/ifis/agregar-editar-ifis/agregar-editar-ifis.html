@@ -1,0 +1,419 @@
+<div class="page-container">
+  <!-- HEADER -->
+  <header class="page-header">
+    <div class="page-title-block">
+      @if (ifiId === 0) {
+        <h1 class="page-title">Registrar Entidad Financiera</h1>
+        <p class="page-subtitle">
+          Completa el formulario para registrar una nueva institución financiera.
+        </p>
+      }
+      @if (ifiId > 0) {
+        <h1 class="page-title">Editar Entidad Financiera</h1>
+        <p class="page-subtitle">
+          Actualiza los datos de la entidad financiera #{{ ifiId }}.
+        </p>
+      }
+    </div>
+  </header>
+
+  <form [formGroup]="formulario" class="formulario-simulacion">
+
+    <!-- CARD 1: Datos generales -->
+    <section class="page-card">
+      <h3 class="card-title">1. Datos generales</h3>
+
+      <div class="grid-form">
+        <!-- Nombre -->
+        <div class="campo-grupo">
+          <label for="nombre" class="campo-label required">Nombre</label>
+          <input
+            id="nombre"
+            type="text"
+            formControlName="nombre"
+            class="campo-input"
+            [class.campo-invalido]="formulario.get('nombre')?.invalid && formulario.get('nombre')?.touched"
+            placeholder="Banco Financiero S.A."
+            />
+            @if (formulario.get('nombre')?.hasError('required') && formulario.get('nombre')?.touched) {
+              <span class="campo-error">El nombre es obligatorio</span>
+            }
+            @if (formulario.get('nombre')?.hasError('minlength') && formulario.get('nombre')?.touched) {
+              <span class="campo-error">Mínimo 3 caracteres</span>
+            }
+          </div>
+
+        <!-- Teléfono -->
+        <div class="campo-grupo">
+          <label for="telefono" class="campo-label required">Teléfono</label>
+          <input
+            id="telefono"
+            type="text"
+            formControlName="telefono"
+            class="campo-input"
+            [class.campo-invalido]="formulario.get('telefono')?.invalid && formulario.get('telefono')?.touched"
+            placeholder="+51-1-2345678"
+            />
+            @if (formulario.get('telefono')?.hasError('required') && formulario.get('telefono')?.touched) {
+              <span class="campo-error">El teléfono es obligatorio</span>
+            }
+          </div>
+
+        <!-- Dirección -->
+        <div class="campo-grupo">
+          <label for="direccion" class="campo-label required">Dirección</label>
+          <input
+            id="direccion"
+            type="text"
+            formControlName="direccion"
+            class="campo-input"
+            [class.campo-invalido]="formulario.get('direccion')?.invalid && formulario.get('direccion')?.touched"
+            placeholder="Av. Larco 1234, Miraflores"
+            />
+            @if (formulario.get('direccion')?.hasError('required') && formulario.get('direccion')?.touched) {
+              <span class="campo-error">La dirección es obligatoria</span>
+            }
+          </div>
+
+        <!-- Monedas permitidas -->
+        <div class="campo-grupo">
+          <label for="monedas_permitidas" class="campo-label required">Monedas permitidas</label>
+          <select
+            id="monedas_permitidas"
+            formControlName="monedas_permitidas"
+            class="campo-input campo-select"
+            [class.campo-invalido]="formulario.get('monedas_permitidas')?.invalid && formulario.get('monedas_permitidas')?.touched"
+            >
+            <option value="">Seleccionar...</option>
+            @for (moneda of monedas; track moneda) {
+              <option [value]="moneda">{{ moneda }}</option>
+            }
+          </select>
+          @if (formulario.get('monedas_permitidas')?.hasError('required') && formulario.get('monedas_permitidas')?.touched) {
+            <span class="campo-error">Selecciona una moneda</span>
+          }
+        </div>
+      </div>
+    </section>
+
+    <!-- CARD 2: Tasas y plazos -->
+    <section class="page-card margin-top-24">
+      <h3 class="card-title">2. Tasas y plazos</h3>
+
+      <div class="grid-form">
+        <!-- Tasa nominal anual -->
+        <div class="campo-grupo">
+          <label for="tasa_nominal_anual" class="campo-label required">Tasa nominal anual (%)</label>
+          <input
+            id="tasa_nominal_anual"
+            type="number"
+            step="0.01"
+            formControlName="tasa_nominal_anual"
+            class="campo-input"
+            [class.campo-invalido]="formulario.get('tasa_nominal_anual')?.invalid && formulario.get('tasa_nominal_anual')?.touched"
+            placeholder="12.50"
+            />
+            @if (formulario.get('tasa_nominal_anual')?.hasError('required') && formulario.get('tasa_nominal_anual')?.touched) {
+              <span class="campo-error">La tasa nominal es obligatoria</span>
+            }
+          </div>
+
+        <!-- Tasa efectiva anual -->
+        <div class="campo-grupo">
+          <label for="tasa_efectiva_anual" class="campo-label required">Tasa efectiva anual (%)</label>
+          <input
+            id="tasa_efectiva_anual"
+            type="number"
+            step="0.01"
+            formControlName="tasa_efectiva_anual"
+            class="campo-input"
+            [class.campo-invalido]="formulario.get('tasa_efectiva_anual')?.invalid && formulario.get('tasa_efectiva_anual')?.touched"
+            placeholder="12.68"
+            />
+            @if (formulario.get('tasa_efectiva_anual')?.hasError('required') && formulario.get('tasa_efectiva_anual')?.touched) {
+              <span class="campo-error">La tasa efectiva es obligatoria</span>
+            }
+          </div>
+
+        <!-- Tipo de tasa base -->
+        <div class="campo-grupo">
+          <label for="tipo_tasa_base" class="campo-label required">Tipo de tasa base</label>
+          <select
+            id="tipo_tasa_base"
+            formControlName="tipo_tasa_base"
+            class="campo-input campo-select"
+            [class.campo-invalido]="formulario.get('tipo_tasa_base')?.invalid && formulario.get('tipo_tasa_base')?.touched"
+            >
+            <option value="">Seleccionar...</option>
+            @for (tipo of tiposTasaBase; track tipo) {
+              <option [value]="tipo">{{ tipo }}</option>
+            }
+          </select>
+          @if (formulario.get('tipo_tasa_base')?.hasError('required') && formulario.get('tipo_tasa_base')?.touched) {
+            <span class="campo-error">Selecciona un tipo de tasa</span>
+          }
+        </div>
+
+        <!-- Capitalización -->
+        <div class="campo-grupo">
+          <label for="capitalizacion_m" class="campo-label required">Capitalización (veces/año)</label>
+          <input
+            id="capitalizacion_m"
+            type="number"
+            formControlName="capitalizacion_m"
+            class="campo-input"
+            [class.campo-invalido]="formulario.get('capitalizacion_m')?.invalid && formulario.get('capitalizacion_m')?.touched"
+            placeholder="12"
+            />
+            @if (formulario.get('capitalizacion_m')?.hasError('required') && formulario.get('capitalizacion_m')?.touched) {
+              <span class="campo-error">La capitalización es obligatoria</span>
+            }
+          </div>
+
+        <!-- Plazo mínimo -->
+        <div class="campo-grupo">
+          <label for="plazo_min_meses" class="campo-label required">Plazo mínimo (meses)</label>
+          <input
+            id="plazo_min_meses"
+            type="number"
+            formControlName="plazo_min_meses"
+            class="campo-input"
+            [class.campo-invalido]="formulario.get('plazo_min_meses')?.invalid && formulario.get('plazo_min_meses')?.touched"
+            placeholder="60"
+            />
+            @if (formulario.get('plazo_min_meses')?.hasError('required') && formulario.get('plazo_min_meses')?.touched) {
+              <span class="campo-error">El plazo mínimo es obligatorio</span>
+            }
+          </div>
+
+        <!-- Plazo máximo -->
+        <div class="campo-grupo">
+          <label for="plazo_max_meses" class="campo-label required">Plazo máximo (meses)</label>
+          <input
+            id="plazo_max_meses"
+            type="number"
+            formControlName="plazo_max_meses"
+            class="campo-input"
+            [class.campo-invalido]="formulario.get('plazo_max_meses')?.invalid && formulario.get('plazo_max_meses')?.touched"
+            placeholder="300"
+            />
+            @if (formulario.get('plazo_max_meses')?.hasError('required') && formulario.get('plazo_max_meses')?.touched) {
+              <span class="campo-error">El plazo máximo es obligatorio</span>
+            }
+          </div>
+
+        <!-- Cuota inicial mínima -->
+        <div class="campo-grupo">
+          <label for="porcentaje_cuota_ini_min" class="campo-label required">% mínimo de cuota inicial</label>
+          <input
+            id="porcentaje_cuota_ini_min"
+            type="number"
+            step="0.01"
+            formControlName="porcentaje_cuota_ini_min"
+            class="campo-input"
+            [class.campo-invalido]="formulario.get('porcentaje_cuota_ini_min')?.invalid && formulario.get('porcentaje_cuota_ini_min')?.touched"
+            placeholder="10"
+            />
+            @if (formulario.get('porcentaje_cuota_ini_min')?.hasError('required') && formulario.get('porcentaje_cuota_ini_min')?.touched) {
+              <span class="campo-error">El porcentaje es obligatorio</span>
+            }
+          </div>
+
+        <!-- Monto mínimo crédito -->
+        <div class="campo-grupo">
+          <label for="monto_min_credito" class="campo-label required">Monto mínimo de crédito (S/)</label>
+          <input
+            id="monto_min_credito"
+            type="number"
+            formControlName="monto_min_credito"
+            class="campo-input"
+            [class.campo-invalido]="formulario.get('monto_min_credito')?.invalid && formulario.get('monto_min_credito')?.touched"
+            placeholder="30000"
+            />
+            @if (formulario.get('monto_min_credito')?.hasError('required') && formulario.get('monto_min_credito')?.touched) {
+              <span class="campo-error">El monto mínimo es obligatorio</span>
+            }
+          </div>
+
+        <!-- Monto máximo crédito -->
+        <div class="campo-grupo">
+          <label for="monto_max_credito" class="campo-label required">Monto máximo de crédito (S/)</label>
+          <input
+            id="monto_max_credito"
+            type="number"
+            formControlName="monto_max_credito"
+            class="campo-input"
+            [class.campo-invalido]="formulario.get('monto_max_credito')?.invalid && formulario.get('monto_max_credito')?.touched"
+            placeholder="1000000"
+            />
+            @if (formulario.get('monto_max_credito')?.hasError('required') && formulario.get('monto_max_credito')?.touched) {
+              <span class="campo-error">El monto máximo es obligatorio</span>
+            }
+          </div>
+      </div>
+    </section>
+
+    <!-- CARD 3: Costos iniciales -->
+    <section class="page-card margin-top-24">
+      <h3 class="card-title">3. Costos iniciales</h3>
+
+      <div class="grid-form">
+        <!-- Costo notarial -->
+        <div class="campo-grupo">
+          <label for="costo_notarial" class="campo-label required">Costo notarial (S/)</label>
+          <input
+            id="costo_notarial"
+            type="number"
+            step="0.01"
+            formControlName="costo_notarial"
+            class="campo-input"
+            [class.campo-invalido]="formulario.get('costo_notarial')?.invalid && formulario.get('costo_notarial')?.touched"
+            placeholder="0"
+            />
+          </div>
+
+        <!-- Costo registral -->
+        <div class="campo-grupo">
+          <label for="costo_registral" class="campo-label required">Costo registral (S/)</label>
+          <input
+            id="costo_registral"
+            type="number"
+            step="0.01"
+            formControlName="costo_registral"
+            class="campo-input"
+            [class.campo-invalido]="formulario.get('costo_registral')?.invalid && formulario.get('costo_registral')?.touched"
+            placeholder="0"
+            />
+          </div>
+
+        <!-- Costo tasación -->
+        <div class="campo-grupo">
+          <label for="costo_tasacion" class="campo-label required">Costo de tasación (S/)</label>
+          <input
+            id="costo_tasacion"
+            type="number"
+            step="0.01"
+            formControlName="costo_tasacion"
+            class="campo-input"
+            [class.campo-invalido]="formulario.get('costo_tasacion')?.invalid && formulario.get('costo_tasacion')?.touched"
+            placeholder="0"
+            />
+          </div>
+
+        <!-- Costo estudio títulos -->
+        <div class="campo-grupo">
+          <label for="costo_estudio_titulos" class="campo-label required">Costo estudio de títulos (S/)</label>
+          <input
+            id="costo_estudio_titulos"
+            type="number"
+            step="0.01"
+            formControlName="costo_estudio_titulos"
+            class="campo-input"
+            [class.campo-invalido]="formulario.get('costo_estudio_titulos')?.invalid && formulario.get('costo_estudio_titulos')?.touched"
+            placeholder="0"
+            />
+          </div>
+
+        <!-- Comisión activación -->
+        <div class="campo-grupo">
+          <label for="comision_activacion" class="campo-label required">Comisión de activación (S/)</label>
+          <input
+            id="comision_activacion"
+            type="number"
+            step="0.01"
+            formControlName="comision_activacion"
+            class="campo-input"
+            [class.campo-invalido]="formulario.get('comision_activacion')?.invalid && formulario.get('comision_activacion')?.touched"
+            placeholder="0"
+            />
+          </div>
+      </div>
+    </section>
+
+    <!-- CARD 4: Costos periódicos -->
+    <section class="page-card margin-top-24">
+      <h3 class="card-title">4. Costos periódicos</h3>
+
+      <div class="grid-form">
+        <!-- Comisión periódica mensual -->
+        <div class="campo-grupo">
+          <label for="comision_periodica_mensual" class="campo-label required">Comisión periódica mensual (S/)</label>
+          <input
+            id="comision_periodica_mensual"
+            type="number"
+            step="0.01"
+            formControlName="comision_periodica_mensual"
+            class="campo-input"
+            [class.campo-invalido]="formulario.get('comision_periodica_mensual')?.invalid && formulario.get('comision_periodica_mensual')?.touched"
+            placeholder="0"
+            />
+          </div>
+
+        <!-- Tasa seguro desgravamen -->
+        <div class="campo-grupo">
+          <label for="tasa_seguro_desgravamen" class="campo-label required">Tasa seguro desgravamen (% anual)</label>
+          <input
+            id="tasa_seguro_desgravamen"
+            type="number"
+            step="0.01"
+            formControlName="tasa_seguro_desgravamen"
+            class="campo-input"
+            [class.campo-invalido]="formulario.get('tasa_seguro_desgravamen')?.invalid && formulario.get('tasa_seguro_desgravamen')?.touched"
+            placeholder="0.60"
+            />
+          </div>
+
+        <!-- Tasa seguro riesgo -->
+        <div class="campo-grupo">
+          <label for="tasa_seguro_riesgo" class="campo-label required">Tasa seguro todo riesgo (% anual)</label>
+          <input
+            id="tasa_seguro_riesgo"
+            type="number"
+            step="0.01"
+            formControlName="tasa_seguro_riesgo"
+            class="campo-input"
+            [class.campo-invalido]="formulario.get('tasa_seguro_riesgo')?.invalid && formulario.get('tasa_seguro_riesgo')?.touched"
+            placeholder="0.30"
+            />
+          </div>
+      </div>
+    </section>
+
+    <!-- CARD 5: Otros parámetros -->
+    <section class="page-card margin-top-24">
+      <h3 class="card-title">5. Otros parámetros</h3>
+
+      <div class="campo-grupo-toggle">
+        <label class="toggle-label">
+          <input
+            type="checkbox"
+            formControlName="permite_bfh"
+            class="toggle-checkbox"
+            />
+          <span class="toggle-text">Permite Bono BFH (Bono Familiar Habitacional)</span>
+        </label>
+      </div>
+    </section>
+
+    <!-- BOTONES DE ACCIÓN -->
+    <div class="contenedor-boton-plan margin-top-24">
+      <app-boton-principal
+        [texto]="ifiId === 0 ? 'Registrar Entidad' : 'Actualizar Entidad'"
+        padding="14px 40px"
+        [disabled]="formulario.invalid"
+        (click)="grabarIfi()">
+      </app-boton-principal>
+    </div>
+
+    <!-- Botón volver -->
+    <app-boton-principal
+      class="posicion-inferior-derecha"
+      texto="Volver"
+      [fondo]="'var(--color-gris)'"
+      [colorTexto]="'var(--color-blanco)'"
+      padding="10px 36px"
+      routerLink="/home/ifis">
+    </app-boton-principal>
+
+  </form>
+</div>

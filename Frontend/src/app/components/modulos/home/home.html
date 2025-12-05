@@ -1,0 +1,98 @@
+<div class="layout-app">
+  <!-- Sidebar fijo -->
+  <aside class="sidebar">
+    <div class="sidebar-header">
+
+      <!-- Logo / nombre app -->
+      <div class="logo-app">
+        <mat-icon>account_balance</mat-icon>
+        <div class="logo-text">
+          <span class="app-name">Fondo MiVivienda</span>
+          <span class="app-subtitle">Simulador MiVivienda</span>
+        </div>
+      </div>
+
+      <!-- Chip de usuario -->
+      <div class="user-chip">
+        <div class="avatar">
+          U
+        </div>
+        <div class="user-info">
+          <span class="label">Bienvenido</span>
+          <span class="name">{{usuario?.username}}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Menú -->
+    <nav class="menu">
+      <div class="menu-section-title">Principal</div>
+
+      <a routerLink="dashboard"
+         routerLinkActive="activo"
+         class="item">
+        <mat-icon>home</mat-icon>
+        <span>Dashboard</span>
+      </a>
+
+      <a routerLink="clientes"
+         routerLinkActive="activo"
+         [routerLinkActiveOptions]="{exact: false}"
+         class="item">
+        <mat-icon>group</mat-icon>
+        <span>Clientes</span>
+      </a>
+
+      <a routerLink="inmuebles"
+         routerLinkActive="activo"
+         [routerLinkActiveOptions]="{exact: false}"
+         class="item">
+        <mat-icon>house</mat-icon>
+        <span>Inmuebles</span>
+      </a>
+
+      <a routerLink="simulacion"
+         routerLinkActive="activo"
+         [routerLinkActiveOptions]="{exact: false}"
+         class="item">
+        <mat-icon>calculate</mat-icon>
+        <span>Simulación de crédito</span>
+      </a>
+
+      <a routerLink="ifis"
+         routerLinkActive="activo"
+         [routerLinkActiveOptions]="{exact: false}"
+         class="item">
+        <mat-icon>business</mat-icon>
+        <span>Bancos</span>
+      </a>
+
+      <div class="menu-section-title separador">
+        Sistema
+      </div>
+
+      <a routerLink="configuracion"
+         routerLinkActive="activo"
+         [routerLinkActiveOptions]="{exact: false}"
+         class="item">
+        <mat-icon>settings</mat-icon>
+        <span>Configuración</span>
+      </a>
+    </nav>
+
+    <!-- Botón salir -->
+    <button type="button"
+            class="btn-salir"
+            (click)="logout()"
+            title="Cerrar sesión">
+      <mat-icon>logout</mat-icon>
+    </button>
+  </aside>
+
+  <!-- Contenido dinámico -->
+  <main class="contenido">
+    <section class="viewport">
+      <router-outlet></router-outlet>
+    </section>
+  </main>
+</div>

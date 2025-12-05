@@ -1,0 +1,256 @@
+/* ========================================
+   COLORES PARA ESTADOS DEL PLAN DE PAGOS
+   ======================================== */
+
+/* Tabla general */
+.tabla-plan-pagos {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.tabla-plan-pagos thead {
+  background-color: #f3f4f6;
+  font-weight: 600;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.tabla-plan-pagos th {
+  padding: 12px 16px;
+  text-align: left;
+  border-bottom: 2px solid #d1d5db;
+  color: #374151;
+}
+
+.tabla-plan-pagos td {
+  padding: 10px 16px;
+  border-bottom: 1px solid #e5e7eb;
+  font-size: 14px;
+}
+
+/* Filas alternadas para mejor legibilidad */
+.tabla-plan-pagos tbody tr:nth-child(even) {
+  background-color: #fafbfc;
+}
+
+/* ========================================
+   ESTADOS CON COLORES
+   ======================================== */
+
+/* Estado: AMORTIZACIÓN (normal) */
+.tabla-plan-pagos tbody tr.estado-amortizacion {
+  background-color: #f0f4ff;
+  border-left: 4px solid #2563eb;
+}
+
+.tabla-plan-pagos tbody tr.estado-amortizacion:hover {
+  background-color: #e0e9ff;
+}
+
+/* Estado: GRACIA TOTAL */
+.tabla-plan-pagos tbody tr.estado-gracia-total {
+  background-color: #fef3c7;
+  border-left: 4px solid #f59e0b;
+}
+
+.tabla-plan-pagos tbody tr.estado-gracia-total:hover {
+  background-color: #fde68a;
+}
+
+.tabla-plan-pagos tbody tr.estado-gracia-total td {
+  color: #92400e;
+  font-weight: 500;
+}
+
+/* Estado: GRACIA PARCIAL */
+.tabla-plan-pagos tbody tr.estado-gracia-parcial {
+  background-color: #dbeafe;
+  border-left: 4px solid #60a5fa;
+}
+
+.tabla-plan-pagos tbody tr.estado-gracia-parcial:hover {
+  background-color: #bfdbfe;
+}
+
+.tabla-plan-pagos tbody tr.estado-gracia-parcial td {
+  color: #1e40af;
+}
+
+/* ========================================
+   COLUMNAS ESPECIALES
+   ======================================== */
+
+/* Ocultar columna PREPAGO */
+.tabla-plan-pagos th.columna-prepago,
+.tabla-plan-pagos td.columna-prepago {
+  display: none;
+}
+
+/* Columna SALDO FINAL en negrilla */
+.tabla-plan-pagos td.columna-saldo-final {
+  font-weight: 600;
+  background-color: #f9fafb;
+}
+
+/* Columna FLUJO en color destacado */
+.tabla-plan-pagos td.columna-flujo {
+  font-weight: 600;
+  color: #059669;
+  background-color: #f0fdf4;
+}
+
+/* Columna CUOTA TOTAL en destaque */
+.tabla-plan-pagos td.columna-cuota-total {
+  font-weight: 600;
+  color: #1f2937;
+  background-color: #f3f4f6;
+}
+
+/* ========================================
+   INDICADORES VISUALES
+   ======================================== */
+
+/* Badge para estados */
+.estado-badge {
+  display: inline-block;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.estado-badge.amortizacion {
+  background-color: #dbeafe;
+  color: #1e40af;
+}
+
+.estado-badge.gracia-total {
+  background-color: #fde68a;
+  color: #92400e;
+}
+
+.estado-badge.gracia-parcial {
+  background-color: #bfdbfe;
+  color: #1e40af;
+}
+
+/* ========================================
+   RESUMEN INDICADORES
+   ======================================== */
+
+.indicadores-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.indicador-card {
+  padding: 20px;
+  background-color: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.indicador-label {
+  font-size: 12px;
+  color: #6b7280;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 8px;
+  display: block;
+}
+
+.indicador-valor {
+  font-size: 24px;
+  font-weight: 700;
+  color: #1f2937;
+}
+
+.indicador-valor.negativo {
+  color: #dc2626;
+}
+
+.indicador-valor.positivo {
+  color: #059669;
+}
+
+.indicador-valor.cero {
+  color: #6b7280;
+}
+
+/* ========================================
+   RESPONSIVE
+   ======================================== */
+
+@media (max-width: 1024px) {
+  .tabla-plan-pagos {
+    font-size: 12px;
+  }
+
+  .tabla-plan-pagos th,
+  .tabla-plan-pagos td {
+    padding: 8px 12px;
+  }
+
+  /* Ocultar columnas menos importantes en tablet */
+  .tabla-plan-pagos .columna-gastos-adm,
+  .tabla-plan-pagos .columna-portes {
+    display: none;
+  }
+}
+
+@media (max-width: 768px) {
+  /* En móvil, mostrar tabla con scroll horizontal */
+  .tabla-plan-pagos-container {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .tabla-plan-pagos {
+    font-size: 11px;
+  }
+
+  .tabla-plan-pagos th,
+  .tabla-plan-pagos td {
+    padding: 6px 10px;
+  }
+
+  /* Ocultar más columnas en móvil */
+  .tabla-plan-pagos .columna-seguro-riesgo,
+  .tabla-plan-pagos .columna-seguro-desgravamen,
+  .tabla-plan-pagos .columna-comision,
+  .tabla-plan-pagos .columna-gastos-adm,
+  .tabla-plan-pagos .columna-portes {
+    display: none;
+  }
+
+  .indicadores-container {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+
+  .indicador-valor {
+    font-size: 18px;
+  }
+}
+
+/* ========================================
+   PRINT STYLES
+   ======================================== */
+
+@media print {
+  .tabla-plan-pagos tbody tr.estado-amortizacion,
+  .tabla-plan-pagos tbody tr.estado-gracia-total,
+  .tabla-plan-pagos tbody tr.estado-gracia-parcial {
+    border-left: 3px solid #000;
+  }
+
+  .tabla-plan-pagos {
+    page-break-inside: avoid;
+  }
+}

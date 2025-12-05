@@ -1,0 +1,145 @@
+<div class="page-container">
+  <!-- HEADER -->
+  <header class="page-header">
+    <div class="page-title-block">
+      <h1 class="page-title">Configuración</h1>
+      <p class="page-subtitle">
+        Administra tu perfil de usuario.
+      </p>
+    </div>
+  </header>
+
+  <!-- CARD 1: Información del usuario -->
+  <section class="page-card">
+    <h3 class="card-title">1. Información del usuario</h3>
+
+    <div class="info-usuario">
+      <div class="info-item">
+        <span class="info-label">Nombre de usuario:</span>
+        <p class="info-valor">{{ usuario?.username }}</p>
+      </div>
+      <div class="info-item">
+        <span class="info-label">Correo electrónico:</span>
+        <p class="info-valor">{{ usuario?.email }}</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CARD 2: Actualizar perfil -->
+  <section class="page-card margin-top-24">
+    <h3 class="card-title">2. Actualizar perfil</h3>
+
+    <!-- Mensaje de éxito -->
+    <div class="mensaje-exito" *ngIf="mensajeExito">
+      {{ mensajeExito }}
+    </div>
+
+    <!-- Mensaje de error -->
+    <div class="mensaje-error" *ngIf="mensajeError">
+      {{ mensajeError }}
+    </div>
+
+    <form [formGroup]="formularioPerfil" class="grid-form">
+      <!-- Nuevo correo -->
+      <div class="campo-grupo">
+        <label for="email" class="campo-label required">Nuevo correo</label>
+        <input
+          id="email"
+          type="email"
+          formControlName="email"
+          class="campo-input"
+          [class.campo-invalido]="formularioPerfil.get('email')?.invalid && formularioPerfil.get('email')?.touched"
+          placeholder="correo@ejemplo.com"
+          />
+          @if (formularioPerfil.get('email')?.hasError('required') && formularioPerfil.get('email')?.touched) {
+            <span class="campo-error">
+              El correo es obligatorio
+            </span>
+          }
+          @if (formularioPerfil.get('email')?.hasError('email') && formularioPerfil.get('email')?.touched) {
+            <span class="campo-error">
+              Ingrese un correo válido
+            </span>
+          }
+        </div>
+
+        <!-- Nueva contraseña -->
+        <div class="campo-grupo">
+          <label for="password" class="campo-label required">Nueva contraseña</label>
+          <input
+            id="password"
+            type="password"
+            formControlName="password"
+            class="campo-input"
+            [class.campo-invalido]="formularioPerfil.get('password')?.invalid && formularioPerfil.get('password')?.touched"
+            placeholder="Ingrese su nueva contraseña"
+            />
+            @if (formularioPerfil.get('password')?.hasError('required') && formularioPerfil.get('password')?.touched) {
+              <span class="campo-error">
+                La contraseña es obligatoria
+              </span>
+            }
+            @if (formularioPerfil.get('password')?.hasError('minlength') && formularioPerfil.get('password')?.touched) {
+              <span class="campo-error">
+                Mínimo 6 caracteres
+              </span>
+            }
+          </div>
+
+          <!-- Confirmar contraseña -->
+          <div class="campo-grupo">
+            <label for="confirmPassword" class="campo-label required">Confirmar contraseña</label>
+            <input
+              id="confirmPassword"
+              type="password"
+              formControlName="confirmPassword"
+              class="campo-input"
+              [class.campo-invalido]="formularioPerfil.get('confirmPassword')?.invalid && formularioPerfil.get('confirmPassword')?.touched"
+              placeholder="Confirme su contraseña"
+              />
+              @if (formularioPerfil.get('confirmPassword')?.hasError('required') && formularioPerfil.get('confirmPassword')?.touched) {
+                <span class="campo-error">
+                  Debe confirmar la contraseña
+                </span>
+              }
+              @if (formularioPerfil.hasError('passwordMismatch') && formularioPerfil.get('confirmPassword')?.touched) {
+                <span class="campo-error">
+                  Las contraseñas no coinciden
+                </span>
+              }
+            </div>
+          </form>
+        </section>
+
+        <!-- BOTONES EN UNA FILA -->
+        <div class="contenedor-botones-fila">
+          <!-- Botón Actualizar perfil -->
+          <app-boton-principal
+            texto="Actualizar perfil"
+            padding="14px 40px"
+            (click)="grabarConfiguracion()"
+            [disabled]="formularioPerfil.invalid || cargando">
+          </app-boton-principal>
+
+          <!-- Botón Cerrar sesión -->
+          <button 
+            type="button"
+            class="btn-logout"
+            (click)="logout()"
+            [disabled]="cargando">
+            <mat-icon>logout</mat-icon>
+            Cerrar sesión
+          </button>
+
+          <!-- Botón Volver (Esquina derecha) -->
+          <app-boton-principal
+            class="btn-volver"
+            texto="Volver al Dashboard"
+            fondo="var(--color-gris)"
+            colorTexto="var(--color-blanco)"
+            padding="10px 36px"
+            routerLink="/home/dashboard">
+          </app-boton-principal>
+        </div>
+
+      </div>

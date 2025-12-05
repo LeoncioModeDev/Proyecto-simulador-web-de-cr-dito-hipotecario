@@ -1,0 +1,497 @@
+<div class="page-container">
+  <!-- HEADER -->
+  <header class="page-header">
+    <div class="page-title-block">
+      <h1 class="page-title">Simulación de Crédito</h1>
+      <p class="page-subtitle">
+        Verifica la elegibilidad y calcula el plan de pagos de créditos hipotecarios.
+      </p>
+    </div>
+  </header>
+
+  <form [formGroup]="formulario" class="formulario-simulacion">
+
+    <!-- CARD 1: Datos del crédito -->
+    <section class="page-card">
+      <h3 class="card-title">1. Datos del crédito</h3>
+
+      <div class="grid-form">
+        <!-- Cliente -->
+        <div class="campo-grupo">
+          <label for="cliente_id" class="campo-label required">Cliente</label>
+          <select
+            id="cliente_id"
+            formControlName="cliente_id"
+            class="campo-input campo-select"
+            [class.campo-invalido]="formulario.get('cliente_id')?.invalid && formulario.get('cliente_id')?.touched">
+            <option value="">Seleccionar cliente...</option>
+            @for (c of clientes; track c) {
+              <option [value]="c.cliente_id">
+                {{ c.dni }} - {{ c.nombres }} {{ c.apellidos }}
+              </option>
+            }
+          </select>
+          @if (formulario.get('cliente_id')?.invalid && formulario.get('cliente_id')?.touched) {
+            <span class="campo-error">
+              Debe seleccionar un cliente
+            </span>
+          }
+        </div>
+
+        <!-- Inmueble -->
+        <div class="campo-grupo">
+          <label for="inmueble_id" class="campo-label required">Inmueble</label>
+          <select
+            id="inmueble_id"
+            formControlName="inmueble_id"
+            class="campo-input campo-select"
+            [class.campo-invalido]="formulario.get('inmueble_id')?.invalid && formulario.get('inmueble_id')?.touched">
+            <option value="">Seleccionar inmueble...</option>
+            @for (i of inmuebles; track i) {
+              <option [value]="i.inmueble_id">
+                {{ i.nombre_proyecto }} - {{ i.ciudad }} - S/ {{ i.precio | number:'1.0-0' }}
+              </option>
+            }
+          </select>
+          @if (formulario.get('inmueble_id')?.invalid && formulario.get('inmueble_id')?.touched) {
+            <span class="campo-error">
+              Debe seleccionar un inmueble
+            </span>
+          }
+        </div>
+
+        <!-- IFI -->
+        <div class="campo-grupo">
+          <label for="ifi_id" class="campo-label required">Entidad Financiera (IFI)</label>
+          <select
+            id="ifi_id"
+            formControlName="ifi_id"
+            class="campo-input campo-select"
+            [class.campo-invalido]="formulario.get('ifi_id')?.invalid && formulario.get('ifi_id')?.touched">
+            <option value="">Seleccionar IFI...</option>
+            @for (i of ifis; track i) {
+              <option [value]="i.ifi_id">
+                {{ i.nombre }}
+              </option>
+            }
+          </select>
+          @if (formulario.get('ifi_id')?.invalid && formulario.get('ifi_id')?.touched) {
+            <span class="campo-error">
+              Debe seleccionar una entidad financiera
+            </span>
+          }
+        </div>
+
+        <!-- Moneda -->
+        <div class="campo-grupo">
+          <label for="moneda_id" class="campo-label required">Moneda</label>
+          <select
+            id="moneda_id"
+            formControlName="moneda_id"
+            class="campo-input campo-select"
+            [class.campo-invalido]="formulario.get('moneda_id')?.invalid && formulario.get('moneda_id')?.touched">
+            <option value="">Seleccionar moneda...</option>
+            @for (m of monedas; track m) {
+              <option [value]="m.moneda_id">
+                {{ m.codigo }} - {{ m.descripcion }}
+              </option>
+            }
+          </select>
+          @if (formulario.get('moneda_id')?.invalid && formulario.get('moneda_id')?.touched) {
+            <span class="campo-error">
+              Debe seleccionar una moneda
+            </span>
+          }
+        </div>
+
+        <!-- Cuota inicial -->
+        <div class="campo-grupo">
+          <label for="cuota_inicial_pct" class="campo-label required">Cuota inicial (%)</label>
+          <input
+            id="cuota_inicial_pct"
+            type="number"
+            formControlName="cuota_inicial_pct"
+            class="campo-input"
+            [class.campo-invalido]="formulario.get('cuota_inicial_pct')?.invalid && formulario.get('cuota_inicial_pct')?.touched"
+            placeholder="Ej: 10"
+            step="0.01"
+            />
+            @if (formulario.get('cuota_inicial_pct')?.hasError('required') && formulario.get('cuota_inicial_pct')?.touched) {
+              <span class="campo-error">
+                La cuota inicial es requerida
+              </span>
+            }
+            @if (formulario.get('cuota_inicial_pct')?.hasError('min') || formulario.get('cuota_inicial_pct')?.hasError('max')) {
+              <span class="campo-error">
+                Debe estar entre 0% y 80%
+              </span>
+            }
+          </div>
+
+          <!-- Plazo -->
+          <div class="campo-grupo">
+            <label for="plazo_meses" class="campo-label required">Plazo (meses)</label>
+            <input
+              id="plazo_meses"
+              type="number"
+              formControlName="plazo_meses"
+              class="campo-input"
+              [class.campo-invalido]="formulario.get('plazo_meses')?.invalid && formulario.get('plazo_meses')?.touched"
+              placeholder="Ej: 180"
+              />
+              @if (formulario.get('plazo_meses')?.hasError('required') && formulario.get('plazo_meses')?.touched) {
+                <span class="campo-error">
+                  El plazo es requerido
+                </span>
+              }
+              @if (formulario.get('plazo_meses')?.hasError('min')) {
+                <span class="campo-error">
+                  El plazo mínimo es 12 meses
+                </span>
+              }
+            </div>
+
+            <!-- Tipo de tasa -->
+            <div class="campo-grupo">
+              <label for="tipo_tasa_id" class="campo-label required">Tipo de tasa</label>
+              <select
+                id="tipo_tasa_id"
+                formControlName="tipo_tasa_id"
+                class="campo-input campo-select"
+                [class.campo-invalido]="formulario.get('tipo_tasa_id')?.invalid && formulario.get('tipo_tasa_id')?.touched">
+                <option value="">Seleccionar tipo...</option>
+                @for (t of tiposTasa; track t) {
+                  <option [value]="t.tipo_tasa_id">
+                    {{ t.descripcion }}
+                  </option>
+                }
+              </select>
+              @if (formulario.get('tipo_tasa_id')?.invalid && formulario.get('tipo_tasa_id')?.touched) {
+                <span class="campo-error">
+                  Debe seleccionar un tipo de tasa
+                </span>
+              }
+            </div>
+
+            <!-- Tasa anual -->
+            <div class="campo-grupo">
+              <label for="tasa_anual" class="campo-label required">Porcenaje (%) de tasa</label>
+              <input
+                id="tasa_anual"
+                type="number"
+                formControlName="tasa_anual_ingresada"
+                class="campo-input"
+                [class.campo-invalido]="formulario.get('tasa_anual_ingresada')?.invalid && formulario.get('tasa_anual_ingresada')?.touched"
+                placeholder="Ej: 12.5"
+                step="0.01"
+                />
+                @if (formulario.get('tasa_anual_ingresada')?.hasError('required') && formulario.get('tasa_anual_ingresada')?.touched) {
+                  <span class="campo-error">
+                    La tasa es requerida
+                  </span>
+                }
+                @if (formulario.get('tasa_anual_ingresada')?.hasError('min')) {
+                  <span class="campo-error">
+                    La tasa debe ser mayor a 0
+                  </span>
+                }
+              </div>
+
+              <!-- ✅ Capitalización - SOLO si NO es Tasa Efectiva -->
+              @if (!capitalizacionDisabled) {
+                <div class="campo-grupo">
+                  <label for="capitalizacion" class="campo-label">Capitalización</label>
+                  <select
+                    id="capitalizacion"
+                    formControlName="capitalizacion_m"
+                    class="campo-input campo-select">
+                    <option value="360">Diaria (360 días/año)</option>
+                    <option value="24">Quincenal (24 veces/año)</option>
+                    <option value="12">Mensual (12 veces/año)</option>
+                    <option value="4">Trimestral (4 veces/año)</option>
+                    <option value="2">Semestral (2 veces/año)</option>
+                    <option value="1">Anual (1 vez/año)</option>
+                  </select>
+                  <small class="campo-hint">Solo aplica para Tasa Nominal (TNA)</small>
+                </div>
+              }
+
+                <!-- Tipo de gracia -->
+                <div class="campo-grupo">
+                  <label for="tipo_gracia_id" class="campo-label required">Tipo de gracia</label>
+                  <select
+                    id="tipo_gracia_id"
+                    formControlName="tipo_gracia_id"
+                    class="campo-input campo-select"
+                    [class.campo-invalido]="formulario.get('tipo_gracia_id')?.invalid && formulario.get('tipo_gracia_id')?.touched">
+                    <option value="">Seleccionar tipo...</option>
+                    @for (g of tiposGracia; track g) {
+                      <option [value]="g.tipo_gracia_id">
+                        {{ g.descripcion }}
+                      </option>
+                    }
+                  </select>
+                  @if (formulario.get('tipo_gracia_id')?.invalid && formulario.get('tipo_gracia_id')?.touched) {
+                    <span class="campo-error">
+                      Debe seleccionar un tipo de gracia
+                    </span>
+                  }
+                </div>
+
+                <!-- Meses de gracia -->
+                <div class="campo-grupo">
+                  <label for="meses_gracia" class="campo-label">Meses de gracia</label>
+                  <input
+                    id="meses_gracia"
+                    type="number"
+                    formControlName="meses_gracia"
+                    class="campo-input"
+                    placeholder="0"
+                    />
+                    <small class="campo-hint">Opcional, ingrese 0 si no aplica</small>
+                  </div>
+                </div>
+
+                <!-- Botón verificar y mensaje -->
+                <div class="seccion-verificacion">
+                  <app-boton-principal
+                    texto="Verificar Elegibilidad"
+                    padding="12px 32px"
+                    [disabled]="formulario.invalid || verificando"
+                    (click)="verificarCredito()">
+                  </app-boton-principal>
+
+                  @if (mensajeVerificacion) {
+                    <div class="mensaje-verificacion">
+                      <div class="alerta" [ngClass]="{ 'alerta-exito': creditoElegible === true, 'alerta-error': creditoElegible === false }">
+                        <mat-icon>{{ creditoElegible ? 'check_circle' : 'error' }}</mat-icon>
+                        <span>{{ mensajeVerificacion }}</span>
+                      </div>
+                    </div>
+                  }
+
+                  @if (intentoSinVerificar && creditoElegible !== true) {
+                    <div class="alerta alerta-warning">
+                      <mat-icon>warning</mat-icon>
+                      <span>Primero verifica la elegibilidad del crédito antes de calcular el plan de pagos.</span>
+                    </div>
+                  }
+                </div>
+              </section>
+
+              <!-- CARD 2: Costos iniciales (opcional) -->
+              @if (creditoElegible) {
+                <section class="page-card margin-top-24">
+                  <h3 class="card-title">2. Costos iniciales (opcional)</h3>
+                  <p class="card-descripcion">Si desea personalizar los costos, modifíquelos. De lo contrario, se usarán los valores de la IFI.</p>
+                  <div class="grid-form">
+                    <div class="campo-grupo">
+                      <label for="costo_notarial" class="campo-label">Costo notarial</label>
+                      <input
+                        id="costo_notarial"
+                        type="number"
+                        formControlName="costo_notarial"
+                        class="campo-input"
+                        placeholder="0"
+                        step="0.01"
+                        />
+                      </div>
+                      <div class="campo-grupo">
+                        <label for="costo_registral" class="campo-label">Costo registros públicos</label>
+                        <input
+                          id="costo_registral"
+                          type="number"
+                          formControlName="costo_registral"
+                          class="campo-input"
+                          placeholder="0"
+                          step="0.01"
+                          />
+                        </div>
+                        <div class="campo-grupo">
+                          <label for="costo_tasacion" class="campo-label">Costo de tasación</label>
+                          <input
+                            id="costo_tasacion"
+                            type="number"
+                            formControlName="costo_tasacion"
+                            class="campo-input"
+                            placeholder="0"
+                            step="0.01"
+                            />
+                          </div>
+                          <div class="campo-grupo">
+                            <label for="costo_estudio" class="campo-label">Costo estudio de títulos</label>
+                            <input
+                              id="costo_estudio"
+                              type="number"
+                              formControlName="costo_estudio_titulos"
+                              class="campo-input"
+                              placeholder="0"
+                              step="0.01"
+                              />
+                            </div>
+                            <div class="campo-grupo">
+                              <label for="comision_activacion" class="campo-label">Comisión de activación</label>
+                              <input
+                                id="comision_activacion"
+                                type="number"
+                                formControlName="comision_activacion"
+                                class="campo-input"
+                                placeholder="0"
+                                step="0.01"
+                                />
+                              </div>
+                              <div class="campo-grupo">
+                                <label for="gastos_adicionales" class="campo-label">Otros gastos iniciales</label>
+                                <input
+                                  id="gastos_adicionales"
+                                  type="number"
+                                  formControlName="gastos_adicionales"
+                                  class="campo-input"
+                                  placeholder="0"
+                                  step="0.01"
+                                  />
+                                </div>
+                              </div>
+                            </section>
+                          }
+
+                          <!-- CARD 3: Costos periódicos (opcional) -->
+                          @if (creditoElegible) {
+                            <section class="page-card margin-top-24">
+                              <h3 class="card-title">3. Costos periódicos (opcional)</h3>
+                              <p class="card-descripcion">Si desea personalizar los costos periódicos, modifíquelos. De lo contrario, se usarán los valores de la IFI.</p>
+                              <div class="grid-form">
+                                <div class="campo-grupo">
+                                  <label for="comision_periodica" class="campo-label">Comisión periódica (mensual)</label>
+                                  <input
+                                    id="comision_periodica"
+                                    type="number"
+                                    formControlName="comision_periodica_mensual"
+                                    class="campo-input"
+                                    placeholder="0"
+                                    step="0.01"
+                                    />
+                                  </div>
+                                  <div class="campo-grupo">
+                                    <label for="portes_mensuales" class="campo-label">Portes mensuales</label>
+                                    <input
+                                      id="portes_mensuales"
+                                      type="number"
+                                      formControlName="portes_mensuales"
+                                      class="campo-input"
+                                      placeholder="0"
+                                      step="0.01"
+                                      />
+                                    </div>
+                                    <div class="campo-grupo">
+                                      <label for="gastos_adm" class="campo-label">Gastos administrativos mensuales</label>
+                                      <input
+                                        id="gastos_adm"
+                                        type="number"
+                                        formControlName="gastos_administracion_mensual"
+                                        class="campo-input"
+                                        placeholder="0"
+                                        step="0.01"
+                                        />
+                                      </div>
+                                      <div class="campo-grupo">
+                                        <label for="tasa_seguro_desgravamen" class="campo-label">Tasa seguro desgravamen (% anual)</label>
+                                        <input
+                                          id="tasa_seguro_desgravamen"
+                                          type="number"
+                                          formControlName="tasa_seguro_desgravamen"
+                                          class="campo-input"
+                                          placeholder="0"
+                                          step="0.01"
+                                          />
+                                          <small class="campo-hint">Ejemplo: 0.6 para 0.6% anual sobre saldo</small>
+                                        </div>
+                                        <div class="campo-grupo">
+                                          <label for="tasa_seguro_riesgo" class="campo-label">Tasa seguro de riesgo (% anual)</label>
+                                          <input
+                                            id="tasa_seguro_riesgo"
+                                            type="number"
+                                            formControlName="tasa_seguro_riesgo"
+                                            class="campo-input"
+                                            placeholder="0"
+                                            step="0.01"
+                                            />
+                                            <small class="campo-hint">Ejemplo: 0.3 para 0.3% anual sobre precio del bien</small>
+                                          </div>
+                                        </div>
+                                      </section>
+                                    }
+
+                                    <!-- ✅ CARD 4: Bono BFH - MEJORADO (EDITABLE) -->
+@if (mostrarBfh && elegibleBfh === true) {
+  <section class="page-card margin-top-24 card-bfh-elegible">
+    <h3 class="card-title">4. Bono Familiar Habitacional</h3>
+    <p class="card-descripcion">
+      ✅ El cliente califica para el Bono Familiar Habitacional ({{ tramoBfh }}) - Máximo S/. {{ montoBfhDisponible | number:'1.2-2' }}
+    </p>
+    <div class="grid-form grid-form-bfh">
+      <div class="campo-grupo campo-checkbox-grupo">
+        <label class="checkbox-label">
+          <input
+            type="checkbox"
+            formControlName="aplica_bfh"
+            class="campo-checkbox"
+            />
+            <span>Aplicar Bono Familiar Habitacional</span>
+          </label>
+        </div>
+        @if (formulario.get('aplica_bfh')?.value) {
+          <div class="campo-grupo">
+            <label for="bfh_monto" class="campo-label required">Monto del BFH (S/.)</label>
+            <input
+              id="bfh_monto"
+              type="number"
+              formControlName="bfh_monto"
+              class="campo-input"
+              placeholder="Ingrese el monto del bono"
+              step="0.01"
+              min="0"
+              [attr.max]="montoBfhDisponible"
+              />
+              @if (formulario.get('bfh_monto')?.hasError('required') && formulario.get('bfh_monto')?.touched) {
+                <span class="campo-error">
+                  El monto del bono es requerido
+                </span>
+              }
+              @if (formulario.get('bfh_monto')?.hasError('max')) {
+                <span class="campo-error">
+                  El monto no puede exceder S/. {{ montoBfhDisponible | number:'1.2-2' }}
+                </span>
+              }
+              @if (formulario.get('bfh_monto')?.hasError('min')) {
+                <span class="campo-error">
+                  El monto debe ser mayor a 0
+                </span>
+              }
+              <small class="campo-hint">Máximo disponible: S/. {{ montoBfhDisponible | number:'1.2-2' }}</small>
+            </div>
+          }
+        </div>
+      </section>
+    }
+
+                                        <!-- BOTÓN CALCULAR -->
+                                        @if (mostrarBotonCalcular) {
+                                          <div class="contenedor-boton-plan margin-top-24">
+                                            <app-boton-principal
+                                              texto="{{ calculando ? 'Calculando...' : 'Calcular Plan de Pagos' }}"
+                                              padding="14px 40px"
+                                              [disabled]="calculando || creditoElegible !== true"
+                                              (click)="calcularPlanPagos()">
+                                            </app-boton-principal>
+                                            @if (calculando) {
+                                              <small class="texto-info">
+                                                ⏳ Generando plan de pagos y guardando en base de datos...
+                                              </small>
+                                            }
+                                          </div>
+                                        }
+
+                                      </form>
+
+                                    </div>

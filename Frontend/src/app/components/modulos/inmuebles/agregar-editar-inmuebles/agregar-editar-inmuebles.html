@@ -1,0 +1,195 @@
+<div class="page-container">
+  <!-- HEADER -->
+  <header class="page-header">
+    <div class="page-title-block">
+      @if (inmuebleId === 0) {
+        <h1 class="page-title">Registrar Inmueble</h1>
+      }
+      @if (inmuebleId > 0) {
+        <h1 class="page-title">Editar Inmueble</h1>
+      }
+      <p class="page-subtitle">
+        @if (inmuebleId === 0) {
+          <span>Completa el formulario para registrar un nuevo inmueble.</span>
+        }
+        @if (inmuebleId > 0) {
+          <span>Actualiza los datos del inmueble con ID {{ inmuebleId }}.</span>
+        }
+      </p>
+    </div>
+  </header>
+
+  <form [formGroup]="formulario" class="formulario-simulacion">
+
+    <!-- CARD 1: Información del proyecto -->
+    <section class="page-card">
+      <h3 class="card-title">1. Información del proyecto</h3>
+
+      <div class="grid-form">
+        <!-- Nombre del proyecto -->
+        <div class="campo-grupo">
+          <label for="nombre_proyecto" class="campo-label required">Nombre del proyecto</label>
+          <input
+            id="nombre_proyecto"
+            type="text"
+            formControlName="nombre_proyecto"
+            class="campo-input"
+            [class.campo-invalido]="formulario.get('nombre_proyecto')?.invalid && formulario.get('nombre_proyecto')?.touched"
+            placeholder="Ej: Proyecto Residencial Vista Verde"
+            />
+            @if (formulario.get('nombre_proyecto')?.hasError('required') && formulario.get('nombre_proyecto')?.touched) {
+              <span class="campo-error">
+                El nombre del proyecto es obligatorio
+              </span>
+            }
+          </div>
+
+          <!-- Unidad -->
+          <div class="campo-grupo">
+            <label for="unidad" class="campo-label required">Unidad</label>
+            <input
+              id="unidad"
+              type="text"
+              formControlName="unidad"
+              class="campo-input"
+              [class.campo-invalido]="formulario.get('unidad')?.invalid && formulario.get('unidad')?.touched"
+              placeholder="Ej: Apto 301"
+              />
+              @if (formulario.get('unidad')?.hasError('required') && formulario.get('unidad')?.touched) {
+                <span class="campo-error">
+                  La unidad es obligatoria
+                </span>
+              }
+            </div>
+
+            <!-- Ciudad -->
+            <div class="campo-grupo">
+              <label for="ciudad" class="campo-label required">Ciudad</label>
+              <input
+                id="ciudad"
+                type="text"
+                formControlName="ciudad"
+                class="campo-input"
+                [class.campo-invalido]="formulario.get('ciudad')?.invalid && formulario.get('ciudad')?.touched"
+                placeholder="Ej: Lima"
+                />
+                @if (formulario.get('ciudad')?.hasError('required') && formulario.get('ciudad')?.touched) {
+                  <span class="campo-error">
+                    La ciudad es obligatoria
+                  </span>
+                }
+              </div>
+            </div>
+          </section>
+
+          <!-- CARD 2: Ubicación -->
+          <section class="page-card margin-top-24">
+            <h3 class="card-title">2. Ubicación</h3>
+
+            <div class="grid-form">
+              <!-- Ubicación general -->
+              <div class="campo-grupo">
+                <label for="ubicacion_general" class="campo-label required">Ubicación general</label>
+                <input
+                  id="ubicacion_general"
+                  type="text"
+                  formControlName="ubicacion_general"
+                  class="campo-input"
+                  [class.campo-invalido]="formulario.get('ubicacion_general')?.invalid && formulario.get('ubicacion_general')?.touched"
+                  placeholder="Ej: Zona norte"
+                  />
+                  @if (formulario.get('ubicacion_general')?.hasError('required') && formulario.get('ubicacion_general')?.touched) {
+                    <span class="campo-error">
+                      La ubicación general es obligatoria
+                    </span>
+                  }
+                </div>
+
+                <!-- Ubicación específica -->
+                <div class="campo-grupo">
+                  <label for="ubicacion_especifica" class="campo-label required">Ubicación específica</label>
+                  <input
+                    id="ubicacion_especifica"
+                    type="text"
+                    formControlName="ubicacion_especifica"
+                    class="campo-input"
+                    [class.campo-invalido]="formulario.get('ubicacion_especifica')?.invalid && formulario.get('ubicacion_especifica')?.touched"
+                    placeholder="Ej: Calle Las Flores 456"
+                    />
+                    @if (formulario.get('ubicacion_especifica')?.hasError('required') && formulario.get('ubicacion_especifica')?.touched) {
+                      <span class="campo-error">
+                        La ubicación específica es obligatoria
+                      </span>
+                    }
+                  </div>
+                </div>
+              </section>
+
+              <!-- CARD 3: Características del inmueble -->
+              <section class="page-card margin-top-24">
+                <h3 class="card-title">3. Características del inmueble</h3>
+
+                <div class="grid-form">
+                  <!-- Área (m²) -->
+                  <div class="campo-grupo">
+                    <label for="area_m2" class="campo-label required">Área (m²)</label>
+                    <input
+                      id="area_m2"
+                      type="number"
+                      formControlName="area_m2"
+                      class="campo-input"
+                      [class.campo-invalido]="formulario.get('area_m2')?.invalid && formulario.get('area_m2')?.touched"
+                      placeholder="120.50"
+                      step="0.01"
+                      />
+                      @if (formulario.get('area_m2')?.hasError('required') && formulario.get('area_m2')?.touched) {
+                        <span class="campo-error">
+                          El área es obligatoria
+                        </span>
+                      }
+                    </div>
+
+                    <!-- Precio -->
+                    <div class="campo-grupo">
+                      <label for="precio" class="campo-label required">Precio (S/)</label>
+                      <input
+                        id="precio"
+                        type="number"
+                        formControlName="precio"
+                        class="campo-input"
+                        [class.campo-invalido]="formulario.get('precio')?.invalid && formulario.get('precio')?.touched"
+                        placeholder="250000.00"
+                        step="0.01"
+                        />
+                        @if (formulario.get('precio')?.hasError('required') && formulario.get('precio')?.touched) {
+                          <span class="campo-error">
+                            El precio es obligatorio
+                          </span>
+                        }
+                      </div>
+                    </div>
+                  </section>
+
+                  <!-- BOTÓN GUARDAR -->
+                  <div class="contenedor-boton-plan margin-top-24">
+                    <app-boton-principal
+                      [texto]="inmuebleId === 0 ? 'Registrar inmueble' : 'Actualizar inmueble'"
+                      padding="14px 40px"
+                      [disabled]="formulario.invalid"
+                      (click)="grabarInmueble()">
+                    </app-boton-principal>
+                  </div>
+
+                  <!-- Botón volver -->
+                  <app-boton-principal
+                    class="posicion-inferior-derecha"
+                    texto="Volver"
+                    [fondo]="'var(--color-gris)'"
+                    [colorTexto]="'var(--color-blanco)'"
+                    padding="10px 36px"
+                    routerLink="/home/inmuebles">
+                  </app-boton-principal>
+
+                </form>
+
+              </div>

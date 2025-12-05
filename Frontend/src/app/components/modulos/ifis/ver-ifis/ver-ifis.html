@@ -1,0 +1,103 @@
+<div class="page-container">
+  <!-- HEADER -->
+  <header class="page-header">
+    <div class="page-title-block">
+      <h1 class="page-title">Entidades Financieras</h1>
+      <p class="page-subtitle">
+        Gestiona las instituciones financieras que participan en la simulación de crédito.
+      </p>
+    </div>
+
+    <div class="page-actions">
+      <app-boton-principal
+        texto="Registrar Entidad Financiera"
+        padding="10px 40px"
+        (click)="irAgregar()">
+      </app-boton-principal>
+    </div>
+  </header>
+
+  <!-- GRID DE IFIS -->
+  <section class="page-card">
+    @if (listaIfis.length > 0) {
+      <div class="grid-ifis">
+        @for (ifi of listaIfis; track ifi.ifi_id) {
+          <div class="card-ifi">
+            <!-- Header de la card -->
+            <div class="ifi-header">
+              <div class="ifi-icon">
+                <mat-icon>business</mat-icon>
+              </div>
+              <h3 class="ifi-nombre">{{ ifi.nombre }}</h3>
+            </div>
+
+            <!-- Información principal -->
+            <div class="ifi-info">
+              <div class="info-item">
+                <span class="label">TEA:</span>
+                <span class="value">{{ ifi.tasa_efectiva_anual | number:'1.2-2' }}%</span>
+              </div>
+              
+              <div class="info-item">
+                <span class="label">Plazo:</span>
+                <span class="value">{{ ifi.plazo_min_meses }} - {{ ifi.plazo_max_meses }} meses</span>
+              </div>
+
+              <div class="info-item">
+                <span class="label">Bono (BFH):</span>
+                <span class="value badge" [class.activo]="ifi.permite_bfh">
+                  {{ ifi.permite_bfh ? '✓ Sí' : '✗ No' }}
+                </span>
+              </div>
+
+              <!-- Detalles adicionales opcionales -->
+              @if (ifi.monto_min_credito && ifi.monto_max_credito) {
+                <div class="info-item">
+                  <span class="label">Rango de crédito:</span>
+                  <span class="value">
+                    S/. {{ ifi.monto_min_credito | number:'1.0-0' }} - 
+                    {{ ifi.monto_max_credito | number:'1.0-0' }}
+                  </span>
+                </div>
+              }
+            </div>
+
+            <!-- Botones de acción -->
+            <div class="ifi-actions">
+              <button 
+                class="btn-accion btn-editar"
+                (click)="editarIfi(ifi.ifi_id)"
+                mat-button>
+                <mat-icon>edit</mat-icon>
+                Editar
+              </button>
+              <button 
+                class="btn-accion btn-eliminar"
+                (click)="borrarIfi(ifi.ifi_id)"
+                mat-button
+                color="warn">
+                <mat-icon>delete</mat-icon>
+                Eliminar
+              </button>
+            </div>
+          </div>
+        }
+      </div>
+    }
+
+    <!-- Estado vacío -->
+    @if (listaIfis.length === 0) {
+      <div class="empty-state">
+        <mat-icon>business_center</mat-icon>
+        <h3>No hay entidades financieras registradas</h3>
+        <p>Comienza registrando tu primera entidad financiera para las simulaciones de crédito.</p>
+        <button 
+          class="btn-crear-nuevo"
+          (click)="irAgregar()">
+          <mat-icon>add</mat-icon>
+          Registrar Primera Entidad
+        </button>
+      </div>
+    }
+  </section>
+</div>

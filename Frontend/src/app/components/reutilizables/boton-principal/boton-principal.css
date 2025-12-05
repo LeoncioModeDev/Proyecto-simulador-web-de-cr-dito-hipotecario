@@ -1,0 +1,50 @@
+.boton-principal {
+  /* Layout */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+
+  font-family: var(--fuente-titulos);
+  font-size: 0.95rem;
+  font-weight: 600;
+
+  background-color: var(--color-azul-principal);
+  color: var(--color-blanco);
+
+  border: none;
+  border-radius: 10px; 
+  cursor: pointer;
+
+  padding: 10px 32px;
+  box-shadow: 0 8px 18px rgba(15, 23, 42, 0.25);
+
+  /* Animaciones */
+  transition:
+    background-color 0.18s ease,
+    box-shadow 0.18s ease,
+    transform 0.06s ease,
+    filter 0.18s ease,
+    opacity 0.18s ease;
+}
+
+.boton-principal:hover:not(:disabled) {
+  filter: brightness(1.06);
+  box-shadow: 0 10px 20px rgba(15, 23, 42, 0.3);
+}
+
+.boton-principal:active:not(:disabled) {
+  transform: translateY(1px);
+  box-shadow: 0 4px 10px rgba(15, 23, 42, 0.2);
+}
+
+/* 🔹 ESTADO DISABLED */
+.boton-principal:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  filter: grayscale(0.3);
+}
+
+.boton-principal mat-icon {
+  font-size: 20px;
+}
