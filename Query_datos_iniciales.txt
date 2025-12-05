@@ -1,0 +1,349 @@
+INSERT INTO cat_moneda (codigo, descripcion) VALUES ('PEN', 'Soles Peruanos');
+INSERT INTO cat_moneda (codigo, descripcion) VALUES ('USD', 'Dólares Estadounidenses');
+
+INSERT INTO cat_tipo_tasa (codigo, descripcion) VALUES ('EFECTIVA', 'Tasa Efectiva Anual (TEA)');
+INSERT INTO cat_tipo_tasa (codigo, descripcion) VALUES ('NOMINAL', 'Tasa Nominal Anual (TNA)');
+
+INSERT INTO cat_tipo_gracia (codigo, descripcion) VALUES ('TOTAL', 'Gracia Total');
+INSERT INTO cat_tipo_gracia (codigo, descripcion) VALUES ('PARCIAL', 'Gracia Parcial');
+INSERT INTO cat_tipo_gracia (codigo, descripcion) VALUES ('SIN_GRACIA', 'Sin Período de Gracia');
+
+INSERT INTO param_mi_vivienda (
+  descripcion,
+  cuota_ini_min_pct,
+  plazo_min_meses,
+  plazo_max_meses,
+  precio_max_vis,
+  precio_max_no_vis,
+  ingreso_max_familiar,
+  vigente_desde,
+  vigente_hasta
+) VALUES (
+  'Crédito Mi Vivienda 2024',
+  10.0,
+  60,
+  360,
+  250000.00,
+  500000.00,
+  15000.00,
+  '2024-01-01',
+  '2025-12-31'
+);
+
+INSERT INTO param_bono (
+  trammo,
+  ingreso_min,
+  ingreso_max,
+  precio_max,
+  monto_bono,
+  vigente_desde,
+  vigente_hasta
+) VALUES (
+  'Tramo 1 - Ingreso Bajo',
+  0,
+  5000,
+  200000,
+  25000,
+  '2024-01-01',
+  '2025-12-31'
+);
+
+INSERT INTO param_bono (
+  trammo,
+  ingreso_min,
+  ingreso_max,
+  precio_max,
+  monto_bono,
+  vigente_desde,
+  vigente_hasta
+) VALUES (
+  'Tramo 2 - Ingreso Medio',
+  5001,
+  10000,
+  300000,
+  20000,
+  '2024-01-01',
+  '2025-12-31'
+);
+
+INSERT INTO param_bono (
+  trammo,
+  ingreso_min,
+  ingreso_max,
+  precio_max,
+  monto_bono,
+  vigente_desde,
+  vigente_hasta
+) VALUES (
+  'Tramo 3 - Ingreso Alto',
+  10001,
+  15000,
+  350000,
+  15000,
+  '2024-01-01',
+  '2025-12-31'
+);
+
+INSERT INTO entidades_financieras (
+  nombre,
+  telefono,
+  direccion,
+  tasa_nominal_anual,
+  tasa_efectiva_anual,
+  tipo_tasa_base,
+  capitalizacion_m,
+  plazo_min_meses,
+  plazo_max_meses,
+  porcentaje_cuota_ini_min,
+  monto_min_credito,
+  monto_max_credito,
+  costo_notarial,
+  costo_registral,
+  costo_tasacion,
+  costo_estudio_titulos,
+  comision_activacion,
+  comision_periodica_mensual,
+  portes_mensuales,
+  gastos_adm_mensuales,
+  tasa_seguro_desgravamen,
+  tasa_seguro_riesgo,
+  permite_bfh,
+  monedas_permitidas,
+  tasa_descuento_anual
+) VALUES (
+  'Banco Financiero',
+  '+51-1-2345678',
+  'Av. Larco 1234, Miraflores',
+  10.50,
+  11.02,
+  'EFECTIVA',
+  12,
+  60,
+  360,
+  10.0,
+  50000,
+  500000,
+  500,
+  250,
+  800,
+  400,
+  1000,
+  50,
+  20,
+  30,
+  0.60,
+  0.30,
+  true,
+  'PEN',
+  0.08
+);
+
+INSERT INTO clientes (
+  nombres,
+  apellidos,
+  dni,
+  correo,
+  telefono,
+  direccion,
+  ingreso_mensual,
+  estado_civil,
+  dependientes,
+  residencia_actual
+) VALUES (
+  'Juan Carlos',
+  'Pérez García',
+  '12345678',
+  'juan@email.com',
+  '987654321',
+  'Jr. Principal 123',
+  4500,
+  'Casado',
+  '2',
+  'Lima Metropolitana'
+);
+
+INSERT INTO clientes (
+  nombres,
+  apellidos,
+  dni,
+  correo,
+  telefono,
+  direccion,
+  ingreso_mensual,
+  estado_civil,
+  dependientes,
+  residencia_actual
+) VALUES (
+  'Patricia',
+  'Morales Sánchez',
+  '87654321',
+  'patricia@email.com',
+  '987654322',
+  'Av. Secundaria 456',
+  8000,
+  'Viuda',
+  '1',
+  'San Isidro'
+);
+
+INSERT INTO clientes (
+  nombres,
+  apellidos,
+  dni,
+  correo,
+  telefono,
+  direccion,
+  ingreso_mensual,
+  estado_civil,
+  dependientes,
+  residencia_actual
+) VALUES (
+  'Carlos',
+  'López Romero',
+  '11111111',
+  'carlos@email.com',
+  '987654323',
+  'Av. Tercera 789',
+  12000,
+  'Soltero',
+  '0',
+  'Surco'
+);
+
+INSERT INTO clientes (
+  nombres,
+  apellidos,
+  dni,
+  correo,
+  telefono,
+  direccion,
+  ingreso_mensual,
+  estado_civil,
+  dependientes,
+  residencia_actual
+) VALUES (
+  'María',
+  'Rodríguez Torres',
+  '22222222',
+  'maria@email.com',
+  '987654324',
+  'Calle Principal 999',
+  16000,
+  'Casada',
+  '3',
+  'La Molina'
+);
+
+INSERT INTO clientes (
+  nombres,
+  apellidos,
+  dni,
+  correo,
+  telefono,
+  direccion,
+  ingreso_mensual,
+  estado_civil,
+  dependientes,
+  residencia_actual
+) VALUES (
+  'Roberto',
+  'García Mendoza',
+  '33333333',
+  'roberto@email.com',
+  '987654325',
+  'Av. Premium 555',
+  18000,
+  'Divorciado',
+  '1',
+  'Miraflores'
+);
+
+INSERT INTO inmuebles (
+  nombre_proyecto,
+  unidad,
+  ubicacion_general,
+  ubicacion_especifica,
+  area_m2,
+  ciudad,
+  precio
+) VALUES (
+  'Proyecto Villa Nueva',
+  'Apto 201',
+  'San Juan de Lurigancho',
+  'Zona Residencial A',
+  95.5,
+  'Lima',
+  180000
+);
+
+INSERT INTO inmuebles (
+  nombre_proyecto,
+  unidad,
+  ubicacion_general,
+  ubicacion_especifica,
+  area_m2,
+  ciudad,
+  precio
+) VALUES (
+  'Penthouse Ejecutivo',
+  'Pent 1001',
+  'Miraflores',
+  'Zona Premium Costera',
+  250.0,
+  'Lima',
+  280000
+);
+
+INSERT INTO inmuebles (
+  nombre_proyecto,
+  unidad,
+  ubicacion_general,
+  ubicacion_especifica,
+  area_m2,
+  ciudad,
+  precio
+) VALUES (
+  'Residencial Casa Grande',
+  'Casa A',
+  'Santiago de Surco',
+  'Zona Residencial Premium',
+  320.0,
+  'Lima',
+  320000
+);
+
+INSERT INTO inmuebles (
+  nombre_proyecto,
+  unidad,
+  ubicacion_general,
+  ubicacion_especifica,
+  area_m2,
+  ciudad,
+  precio
+) VALUES (
+  'Torre de Lujo',
+  'Apto 3001',
+  'La Molina',
+  'Zona Financiera',
+  400.0,
+  'Lima',
+  450000
+);
+
+INSERT INTO inmuebles (
+  nombre_proyecto,
+  unidad,
+  ubicacion_general,
+  ubicacion_especifica,
+  area_m2,
+  ciudad,
+  precio
+) VALUES (
+  'Mansión Exclusiva',
+  'Casa Principal',
+  'Miraflores',
+  'Zona de Prestige',
+  600.0,
+  'Lima',
+  600000
+);
